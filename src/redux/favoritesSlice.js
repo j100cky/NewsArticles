@@ -8,6 +8,19 @@ const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
+    toggleFavorite: (state, action) => {
+        const article = action.payload;
+        const existingIndex = state.favoriteArticles.findIndex(
+            (item) => item.id === article.idArticle
+        );
+
+        if(existingIndex >= 0){
+            state.favoriteArticles.splice(existingIndex, 1);
+        } else {
+            state.favoriteArticles.push(article);
+            console.log("favorite set");
+        }
+    },
    
   },
 });

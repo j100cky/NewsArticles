@@ -53,8 +53,37 @@ export default function FavoriteScreen() {
         >
           My Favorite Articles
         </Text>
+        
       </View>
-    
+        <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+        >
+            <Text style={{color:"#fff"}}>Go back</Text>
+        </TouchableOpacity>
+        <FlatList 
+            data={favoriteArticlesList}
+            contentContainerStyle={styles.listContentContainer}
+            keyExtractor={(item) => item.idArticle}
+            renderItem={({item}) => (
+                    <TouchableOpacity 
+                        style={styles.cardContainer}
+                        onPress={() => navigation.navigate("ArticleDetail", item)}
+                    >
+                        <Image 
+                            source={{uri: item.thumbnail}}
+                            style={styles.articleImage}
+                        />
+                        <Text style={styles.articleTitle}>
+                            {item.title.length > 20? `${item.title.slice(0, 20)}...` : item.title}
+                        </Text>
+                        {/* <Text style={styles.articleDescription}>
+                            {item.description.length > 40 ? item.description.slice(0, 40)+"..." : item.articleDescription}
+                        </Text> */}
+                    </TouchableOpacity>
+                )
+            }
+        />
      
      
     </>
@@ -98,5 +127,14 @@ const styles = StyleSheet.create({
     fontSize: hp(2),
     fontWeight: "bold",
     color: "#4B5563", // text-neutral-700
+  },
+  backButton: {
+    backgroundColor: "#2563EB",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    width: 100,
+    alignItems: "center",
+    marginLeft: 20,
   },
 });

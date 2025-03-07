@@ -7,14 +7,19 @@ export default function Articles({ categories, articles }) {
   const navigation = useNavigation();
 
   const renderItem = ({ item, index }) => (
-<ArticleCard item={item} index={index} navigation={navigation} />
+    <ArticleCard item={item} index={index} navigation={navigation} />
   );
 
   return (
     <View style={styles.container}>
       <Text style={styles.title} testID="title">Latest News</Text>
       <View testID="articlesDisplay">
-     
+        <FlatList 
+            data={articles}
+            keyExtractor={(item) => item.idArticle}
+            renderItem={renderItem}
+            numColumns={2}
+        />
       </View>
     </View>
   );
@@ -23,9 +28,25 @@ export default function Articles({ categories, articles }) {
 const ArticleCard = ({ item, index, navigation }) => {
   return (
     <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay"
+      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} 
+      testID="articleDisplay"
     >
-      
+      <TouchableOpacity
+        onPress={() => navigation.navigate("ArticleDetail", {...item})}
+      >
+        <Image 
+            source={{uri:item.thumbnail}}
+            style={[styles.articleImage, {height:index%3===0 ? hp(25) : hp(35)}]}
+        />
+        <Text style={styles.articleText}>
+            {item.title.length > 20 ? item.title.slice(0, 20) + "..." : item.title}
+        </Text>
+        <Text style={styles.articleDescription}>
+            {item.description.length > 40 ? item.description.slice(0, 40)+"..." : item.articleDescription}
+        </Text>
+
+
+      </TouchableOpacity>
     </View>
   );
 };
